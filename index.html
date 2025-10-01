@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30 Years Together - Поздравление</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #87CEEB, #E0F7FF);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Анимированные облака на фоне */
+        .clouds {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+        }
+
+        @keyframes float {
+            from { transform: translateX(-100px); }
+            to { transform: translateX(calc(100vw + 100px)); }
+        }
+
+        /* Контейнер */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Анимация самолета */
+        .airplane-container {
+            position: relative;
+            height: 200px;
+            margin: 50px 0;
+        }
+
+        .airplane {
+            position: absolute;
+            left: -200px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: flyIn 2s ease-out forwards;
+        }
+
+        .airplane img {
+            width: 150px;
+            height: auto;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .hearts {
+            position: absolute;
+            top: 60%;
+            left: 0;
+            animation: heartsFlow 3s linear infinite;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff6b6b;
+            font-size: 20px;
+            animation: heartFloat 3s linear infinite;
+        }
+
+        .anniversary-text {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin: 20px 0;
+            opacity: 0;
+            animation: fadeIn 1s 2s forwards;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Текст поздравления */
+        .congratulations {
+            font-size: 1.8em;
+            color: #34495e;
+            margin: 30px 0;
+            opacity: 0;
+            animation: slideUp 1s 3s forwards;
+            line-height: 1.4;
+        }
+
+        /* Видео контейнер */
+        .video-container {
+            margin: 40px auto;
+            max-width: 800px;
+            opacity: 0;
+            animation: fadeIn 1s 4s forwards;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        /* Анимации */
+        @keyframes flyIn {
+            0% {
+                left: -200px;
+                transform: translateY(-50%) rotate(-10deg);
+            }
+            100% {
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%) rotate(0deg);
+            }
+        }
+
+        @keyframes heartsFlow {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100px); }
+        }
+
+        @keyframes heartFloat {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .anniversary-text {
+                font-size: 2em;
+            }
+            
+            .congratulations {
+                font-size: 1.4em;
+            }
+            
+            .airplane img {
+                width: 120px;
+            }
+            
+            .video-placeholder {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .anniversary-text {
+                font-size: 1.6em;
+            }
+            
+            .congratulations {
+                font-size: 1.2em;
+            }
+            
+            .airplane img {
+                width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Фоновые облака -->
+    <div class="clouds" id="clouds"></div>
+
+    <div class="container">
+        <!-- Анимированный самолет -->
+        <div class="airplane-container">
+            <div class="airplane">
+                <!-- Заглушка для изображения самолета -->
+                <svg viewBox="0 0 100 100" width="150" height="150">
+                    <path d="M10,50 L90,50 L70,30 L60,30 L50,10 L40,30 L30,30 Z" fill="#3498db" stroke="#2980b9" stroke-width="2"/>
+                    <path d="M20,50 L30,70 L40,70 L50,90 L60,70 L70,70 L80,50" fill="#3498db" stroke="#2980b9" stroke-width="2"/>
+                </svg>
+                <div class="hearts" id="hearts"></div>
+            </div>
+        </div>
+
+        <!-- Текст годовщины -->
+        <div class="anniversary-text">30 YEARS TOGETHER</div>
+
+        <!-- Текст поздравления -->
+        <div class="congratulations">
+            Ваш самолёт заберёт вас в путешествие любви!
+        </div>
+
+        <!-- Видео блок -->
+        <div class="video-container">
+            <div class="video-placeholder">
+                📹 Здесь будет ваше видео-поздравление
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Создание облаков
+        function createClouds() {
+            const cloudsContainer = document.getElementById('clouds');
+            const cloudCount = 8;
+            
+            for (let i = 0; i < cloudCount; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                
+                // Случайные параметры для облаков
+                const size = Math.random() * 100 + 50;
+                const top = Math.random() * 100;
+                const delay = Math.random() * 20;
+                const duration = Math.random() * 10 + 20;
+                
+                cloud.style.width = `${size}px`;
+                cloud.style.height = `${size * 0.6}px`;
+                cloud.style.top = `${top}%`;
+                cloud.style.left = `${Math.random() * 100}%`;
+                cloud.style.animationDelay = `${delay}s`;
+                cloud.style.animationDuration = `${duration}s`;
+                
+                cloudsContainer.appendChild(cloud);
+            }
+        }
+
+        // Создание сердечек
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const heartCount = 15;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤';
+                
+                // Случайные параметры для сердечек
+                const left = Math.random() * 100;
+                const delay = Math.random() * 2;
+                const duration = Math.random() * 1 + 2;
+                
+                heart.style.left = `${left}%`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.animationDuration = `${duration}s`;
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            createClouds();
+            createHearts();
+        });
+    </script>
+</body>
+</html>
