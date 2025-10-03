@@ -31,12 +31,12 @@ https://evgenyponomarevnova.github.io/congratulations-website/
 
 ### Цветовая палитра
 ``css
---primary-gradient: linear-gradient(135deg, #87CEEB 0%, #E0F7FF 50%, #B6E0FE 100%);
---text-primary: #2c3e50;
---accent-color: #ff6b6b;
---card-bg: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,248,248,0.95) 100%);
+- --primary-gradient: linear-gradient(135deg, #87CEEB 0%, #E0F7FF 50%, #B6E0FE 100%);
+- --text-primary: #2c3e50;
+- --accent-color: #ff6b6b;
+- --card-bg: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,248,248,0.95) 100%);
 
-##Типографика
+## Типографика
 - Заголовки: Quicksand, system-ui
 
 - Основной текст: Nunito, system-ui
