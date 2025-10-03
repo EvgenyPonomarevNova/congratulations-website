@@ -1,509 +1,547 @@
 <!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
-    <title>Ваши билеты в свадебное путешествие</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
+<html lang="ru" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#87CEEB">
+    <title>✈️ Ваши билеты в свадебное путешествие</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Quicksand:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="image" href="./mg.png">
+    
     <style>
-      /* iOS оптимизации */
-      * {
-        -webkit-tap-highlight-color: transparent;
-        -webkit-font-smoothing: antialiased;
-      }
-
-      body {
-        font-family: "Nunito", "Quicksand", sans-serif;
-        background: linear-gradient(
-          135deg,
-          #87ceeb 0%,
-          #e0f7ff 50%,
-          #b6e0fe 100%
-        );
-        min-height: 100vh;
-        min-height: -webkit-fill-available;
-        overflow-x: hidden;
-        position: relative;
-        line-height: 1.6;
-        padding: env(safe-area-inset-top) env(safe-area-inset-right)
-          env(safe-area-inset-bottom) env(safe-area-inset-left);
-      }
-
-      .clouds {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        pointer-events: none;
-      }
-
-      .cloud {
-        position: absolute;
-        opacity: 0.95;
-        filter: drop-shadow(3px 3px 8px rgba(0, 0, 0, 0.15));
-        animation: floatClouds 25s linear infinite;
-      }
-
-      .cloud svg {
-        width: 100%;
-        height: 100%;
-        fill: white;
-      }
-
-      .background-airplane {
-        position: fixed;
-        width: 800px;
-        max-width: 90vw;
-        height: auto;
-        left: -900px;
-        top: 50%;
-        transform: translateY(-50%);
-        animation: backgroundFlyIn 8s cubic-bezier(0.3, 0, 0.1, 1) 5s forwards;
-        filter: drop-shadow(15px 15px 30px rgba(0, 0, 0, 0.3));
-        z-index: 0;
-        opacity: 0.9;
-      }
-
-      .section {
-        position: relative;
-        z-index: 3;
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 20px 15px 40px 15px;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .airplane-container {
-        position: relative;
-        height: 450px;
-        max-height: 50vh;
-        margin: 20px 0;
-        overflow: hidden;
-        z-index: 10;
-      }
-
-      .airplane {
-        position: absolute;
-        width: 450px;
-        max-width: 80vw;
-        height: auto;
-        left: -550px;
-        top: 50%;
-        transform: translateY(-50%);
-        animation: flyIn 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        filter: drop-shadow(8px 8px 20px rgba(0, 0, 0, 0.5));
-        z-index: 10;
-        -webkit-user-select: none;
-        user-select: none;
-      }
-
-      .floating-hearts {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        z-index: 2;
-      }
-
-      .floating-heart {
-        position: absolute;
-        font-size: 28px;
-        opacity: 0;
-        animation: floatHeart 7s ease-in-out infinite;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        -webkit-user-select: none;
-        user-select: none;
-      }
-
-      .floating-heart:nth-child(1) {
-        color: #ff6b6b;
-        left: 15%;
-        animation-delay: 0s;
-      }
-      .floating-heart:nth-child(2) {
-        color: #ff8e8e;
-        left: 30%;
-        animation-delay: 1.2s;
-      }
-      .floating-heart:nth-child(3) {
-        color: #ff6b6b;
-        left: 45%;
-        animation-delay: 2.4s;
-      }
-      .floating-heart:nth-child(4) {
-        color: #ff8e8e;
-        left: 60%;
-        animation-delay: 3.6s;
-      }
-      .floating-heart:nth-child(5) {
-        color: #ff6b6b;
-        left: 75%;
-        animation-delay: 4.8s;
-      }
-      .floating-heart:nth-child(6) {
-        color: #ff8e8e;
-        left: 25%;
-        animation-delay: 0.8s;
-      }
-      .floating-heart:nth-child(7) {
-        color: #ff6b6b;
-        left: 50%;
-        animation-delay: 2s;
-      }
-      .floating-heart:nth-child(8) {
-        color: #ff8e8e;
-        left: 70%;
-        animation-delay: 3.2s;
-      }
-
-      .main-title {
-        font-size: clamp(2rem, 8vw, 3.2em);
-        color: #2c3e50;
-        margin-bottom: 25px;
-        opacity: 0;
-        animation: fadeIn 1s 1s forwards;
-        text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.15);
-        font-weight: 700;
-        text-align: center;
-        font-family: "Quicksand", sans-serif;
-      }
-
-      .greeting-text {
-        font-size: clamp(1rem, 4vw, 1.5em);
-        color: #34495e;
-        margin-bottom: 25px;
-        opacity: 0;
-        animation: slideUp 1s 1.5s forwards;
-        text-align: center;
-        line-height: 1.8;
-        font-weight: 600;
-      }
-
-      .ticket-info {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.95) 0%,
-          rgba(255, 248, 248, 0.95) 100%
-        );
-        padding: 25px 20px;
-        border-radius: 25px;
-        margin: 25px 0;
-        opacity: 0;
-        animation: fadeIn 1s 2s forwards;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-        border: 3px solid rgba(255, 107, 107, 0.15);
-        backdrop-filter: blur(12px);
-        position: relative;
-        z-index: 5;
-      }
-
-      .ticket-item {
-        margin: 15px 0;
-        font-size: clamp(0.9rem, 3.5vw, 1.3em);
-        color: #2c3e50;
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        border-radius: 15px;
-        transition: all 0.4s ease;
-        font-weight: 600;
-      }
-
-      .emoji {
-        font-size: clamp(1.5em, 4vw, 2em);
-        margin-right: 15px;
-        min-width: 45px;
-        text-align: center;
-      }
-
-      .second-block {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.98) 0%,
-          rgba(255, 250, 250, 0.98) 100%
-        );
-        border-radius: 25px;
-        padding: 35px 25px;
-        margin-top: 40px;
-        opacity: 0;
-        animation: fadeIn 1s 3s forwards;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-        border: 3px solid rgba(255, 107, 107, 0.2);
-        backdrop-filter: blur(15px);
-        position: relative;
-        z-index: 5;
-      }
-
-      .congrats-text {
-        font-size: clamp(0.95rem, 3.5vw, 1.4em);
-        color: #2c3e50;
-        margin-bottom: 25px;
-        text-align: center;
-        line-height: 1.9;
-        font-weight: 500;
-      }
-
-      .video-container {
-        margin: 35px auto;
-        opacity: 0;
-        animation: fadeIn 1s 3.5s forwards;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
-        border: 4px solid rgba(255, 255, 255, 0.6);
-        position: relative;
-        z-index: 5;
-        aspect-ratio: 16/9;
-      }
-
-      .video-container video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 20px;
-      }
-
-      /* Анимации остаются без изменений */
-      @keyframes backgroundFlyIn {
-        0% {
-          left: -900px;
-          transform: translateY(-50%) rotate(-5deg) scale(1);
-          opacity: 0;
+        /* CSS Custom Properties for theming */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #87CEEB 0%, #E0F7FF 50%, #B6E0FE 100%);
+            --text-primary: #2c3e50;
+            --text-secondary: #34495e;
+            --accent-color: #ff6b6b;
+            --card-bg: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,248,248,0.95) 100%);
+            --card-shadow: 0 15px 35px rgba(0,0,0,0.12);
+            --border-radius: 25px;
+            --backdrop-blur: blur(12px);
         }
-        20% {
-          opacity: 0.3;
-        }
-        40% {
-          opacity: 0.6;
-        }
-        60% {
-          opacity: 0.8;
-        }
-        80% {
-          opacity: 0.9;
-        }
-        100% {
-          left: 110%;
-          transform: translateY(-50%) rotate(2deg) scale(1);
-          opacity: 0.9;
-        }
-      }
 
-      @keyframes flyIn {
-        0% {
-          left: -550px;
-          transform: translateY(-50%) rotate(-15deg) scale(0.8);
-          opacity: 0;
+        /* Modern CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        100% {
-          left: 50%;
-          transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(1);
-          opacity: 1;
-        }
-      }
 
-      @keyframes floatHeart {
-        0% {
-          transform: translateY(100vh) rotate(0deg) scale(0);
-          opacity: 0;
+        /* Progressive enhancement */
+        .no-js .airplane,
+        .no-js .floating-heart,
+        .no-js .cloud {
+            opacity: 1 !important;
+            animation: none !important;
         }
-        15% {
-          transform: translateY(70vh) rotate(36deg) scale(1);
-          opacity: 1;
-        }
-        85% {
-          transform: translateY(-80px) rotate(324deg) scale(1);
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(-120px) rotate(360deg) scale(0);
-          opacity: 0;
-        }
-      }
 
-      @keyframes floatClouds {
-        0% {
-          transform: translateX(-100px);
+        /* Base styles with modern features */
+        body {
+            font-family: system-ui, -apple-system, 'Nunito', 'Quicksand', sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+            line-height: 1.6;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            
+            /* Performance optimizations */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeSpeed;
         }
-        100% {
-          transform: translateX(calc(100vw + 100px));
-        }
-      }
 
-      @keyframes fadeIn {
-        to {
-          opacity: 1;
+        /* Main container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: clamp(1rem, 5vw, 2rem) clamp(0.5rem, 3vw, 1.5rem) clamp(2rem, 8vw, 4rem);
+            position: relative;
+            z-index: 3;
         }
-      }
-      @keyframes slideUp {
-        0% {
-          opacity: 0;
-          transform: translateY(40px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
 
-      /* iPhone оптимизации */
-      @media (max-width: 768px) {
-        .section {
-          padding: 15px 10px 30px 10px;
-        }
+        /* Airplane styling */
         .airplane-container {
-          height: 300px;
-          margin: 15px 0;
+            position: relative;
+            width: min(450px, 80vw);
+            margin: clamp(1rem, 4vw, 2rem) auto;
+            z-index: 10;
         }
+
         .airplane {
-          width: 300px;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            filter: 
+                drop-shadow(8px 8px 20px rgba(0,0,0,0.5))
+                contrast(1.1)
+                saturate(1.1);
+            transform: translateX(-100vw) rotate(-15deg) scale(0.8);
+            animation: flyIn 4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            
+            /* Will-change for performance */
+            will-change: transform, opacity;
         }
+
+        /* Content sections */
+        .content-section {
+            text-align: center;
+            margin-bottom: clamp(2rem, 6vw, 4rem);
+        }
+
+        /* Ticket info styling */
         .ticket-info {
-          padding: 20px 15px;
-          margin: 20px 0;
+            display: grid;
+            gap: clamp(0.75rem, 2vw, 1rem);
+            background: var(--card-bg);
+            padding: clamp(1.25rem, 4vw, 2rem);
+            border-radius: var(--border-radius);
+            margin: clamp(1rem, 4vw, 2rem) 0;
+            backdrop-filter: var(--backdrop-blur);
+            border: 3px solid rgba(255, 107, 107, 0.15);
+            box-shadow: var(--card-shadow);
+            opacity: 0;
+            animation: fadeIn 1s 2s forwards;
         }
+
+        .ticket-item {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            gap: clamp(0.75rem, 2vw, 1.25rem);
+            padding: clamp(0.5rem, 2vw, 1rem);
+            border-radius: 15px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticket-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,107,107,0.1) 0%, rgba(255,140,140,0.08) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .ticket-item:hover::before {
+            opacity: 1;
+        }
+
+        .ticket-item:hover {
+            transform: translateX(12px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.2);
+        }
+
+        /* Modern emoji handling */
+        .emoji {
+            font-size: clamp(1.5em, 4vw, 2em);
+            min-width: clamp(2.5rem, 6vw, 3.75rem);
+            text-align: center;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
+        }
+
+        /* Second block styling */
         .second-block {
-          padding: 25px 20px;
-          margin-top: 30px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: clamp(1.5rem, 5vw, 3rem) clamp(1.25rem, 4vw, 2.5rem);
+            margin-top: clamp(2rem, 6vw, 4rem);
+            backdrop-filter: var(--backdrop-blur);
+            border: 3px solid rgba(255, 107, 107, 0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            opacity: 0;
+            animation: fadeIn 1s 3s forwards;
         }
+
+        /* Video container */
         .video-container {
-          margin: 25px auto;
+            aspect-ratio: 16/9;
+            margin: clamp(1.5rem, 5vw, 3rem) auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+            border: 4px solid rgba(255,255,255,0.6);
+            opacity: 0;
+            animation: fadeIn 1s 3.5s forwards;
         }
-      }
 
-      @media (max-width: 480px) {
-        .airplane-container {
-          height: 250px;
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: inherit;
         }
-        .airplane {
-          width: 250px;
+
+        /* Typography */
+        .main-title {
+            font-size: clamp(2rem, 8vw, 3.2rem);
+            color: var(--text-primary);
+            margin-bottom: clamp(1rem, 4vw, 2rem);
+            text-align: center;
+            font-weight: 700;
+            font-family: 'Quicksand', system-ui;
+            text-wrap: balance;
+            opacity: 0;
+            animation: fadeIn 1s 1s forwards;
         }
-        .ticket-info {
-          padding: 15px 12px;
+
+        .greeting-text {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: clamp(1rem, 4vw, 2rem);
+            text-align: center;
+            line-height: 1.8;
+            text-wrap: pretty;
+            opacity: 0;
+            animation: slideUp 1s 1.5s forwards;
         }
-        .second-block {
-          padding: 20px 15px;
+
+        .congrats-text {
+            font-size: clamp(0.95rem, 3.5vw, 1.4rem);
+            color: var(--text-primary);
+            margin-bottom: clamp(1rem, 4vw, 2rem);
+            text-align: center;
+            line-height: 1.9;
+            text-wrap: pretty;
         }
-      }
+
+        /* Background airplane */
+        .background-airplane {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.1;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Floating hearts */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff6b6b;
+            opacity: 0;
+            animation: floatHeart 6s ease-in-out infinite;
+        }
+
+        .floating-heart:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .floating-heart:nth-child(2) { left: 20%; animation-delay: 1s; }
+        .floating-heart:nth-child(3) { left: 30%; animation-delay: 2s; }
+        .floating-heart:nth-child(4) { left: 40%; animation-delay: 3s; }
+        .floating-heart:nth-child(5) { left: 50%; animation-delay: 4s; }
+        .floating-heart:nth-child(6) { left: 60%; animation-delay: 5s; }
+        .floating-heart:nth-child(7) { left: 70%; animation-delay: 6s; }
+        .floating-heart:nth-child(8) { left: 80%; animation-delay: 7s; }
+
+        /* Clouds */
+        .clouds {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .cloud {
+            position: absolute;
+            opacity: 0.7;
+            animation: floatClouds linear infinite;
+        }
+
+        .cloud svg {
+            width: 100%;
+            height: 100%;
+            fill: white;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+        }
+
+        /* Animations */
+        @media (prefers-reduced-motion: no-preference) {
+            @keyframes flyIn {
+                0% {
+                    transform: translateX(-100vw) rotate(-15deg) scale(0.8);
+                    opacity: 0;
+                }
+                100% {
+                    transform: translateX(0) rotate(0deg) scale(1);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes floatHeart {
+                0% {
+                    transform: translateY(100vh) rotate(0deg) scale(0);
+                    opacity: 0;
+                }
+                15% {
+                    transform: translateY(70vh) rotate(36deg) scale(1);
+                    opacity: 1;
+                }
+                85% {
+                    transform: translateY(-80px) rotate(324deg) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-120px) rotate(360deg) scale(0);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes floatClouds {
+                0% {
+                    transform: translateX(-100px);
+                }
+                100% {
+                    transform: translateX(calc(100vw + 100px));
+                }
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .ticket-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .emoji {
+                justify-self: center;
+            }
+        }
+
+        /* Modern focus styles */
+        .ticket-item:focus-within {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            .floating-hearts,
+            .background-airplane,
+            .clouds {
+                display: none;
+            }
+            
+            .ticket-info,
+            .second-block {
+                box-shadow: none;
+                border: 2px solid #ccc;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <img src="./mg.png" alt="Фоновый самолет" class="background-airplane" />
-
-    <div class="floating-hearts">
-      <div class="floating-heart">❤</div>
-      <div class="floating-heart">❤</div>
-      <div class="floating-heart">❤</div>
-      <div class="floating-heart">❤</div>
-      <div class="floating-heart">❤</div>
-      <div class="floating-heart">❤</div>
-      <div class="floating-heart">❤</div>
-      <div class="floating-heart">❤</div>
+</head>
+<body>
+    <!-- Background elements -->
+    <img src="./mg.png" alt="" class="background-airplane" loading="eager">
+    
+    <div class="floating-hearts" aria-hidden="true">
+        <div class="floating-heart">❤</div>
+        <div class="floating-heart">❤</div>
+        <div class="floating-heart">❤</div>
+        <div class="floating-heart">❤</div>
+        <div class="floating-heart">❤</div>
+        <div class="floating-heart">❤</div>
+        <div class="floating-heart">❤</div>
+        <div class="floating-heart">❤</div>
     </div>
 
     <div class="clouds" id="clouds"></div>
 
-    <div class="section">
-      <div class="airplane-container">
-        <img src="./mg.png" alt="Поздравительный самолет" class="airplane" />
-      </div>
+    <!-- Main content -->
+    <div class="container">
+        <div class="content-section">
+            <div class="airplane-container">
+                <img src="./mg.png" alt="Поздравительный самолет" class="airplane" loading="eager">
+            </div>
 
-      <h1 class="main-title">✈️ Ваши билеты в свадебное путешествие 💖</h1>
+            <h1 class="main-title">✈️ Ваши билеты в свадебное путешествие 💖</h1>
 
-      <p class="greeting-text">
-        Дорогие молодожёны,<br />эти посадочные талоны — особенные. Они не
-        просто картонка с надписями, а ключ на рейс №30
-      </p>
+            <p class="greeting-text">
+                Дорогие молодожёны,<br>эти посадочные талоны — особенные. Они не
+                просто картонка с надписями, а ключ на рейс №30
+            </p>
 
-      <div class="ticket-info">
-        <div class="ticket-item">
-          <span class="emoji">🌍</span>Пункт отправления: будни, заботы и рутина
-        </div>
-        <div class="ticket-item">
-          <span class="emoji">💌</span>Пункт назначения: счастье, отдых и море
-          впечатлений
-        </div>
-        <div class="ticket-item">
-          <span class="emoji">📍</span>Дата вылета: когда вы решите)
-        </div>
-        <div class="ticket-item">
-          <span class="emoji">🎟</span>Места: только два — для самых главных
-          пассажиров
-        </div>
-      </div>
-
-      <div class="second-block">
-        <div class="congrats-text">
-          <strong>Тридцать лет вместе — это вам не шуточки!</strong><br /><br />
-          За это время кто-то успевает трижды, а то и больше пожениться и
-          развестись, а вы всё ещё летите одним курсом 🚀<br /><br />
-          Вы доказали, что любовь — это не сказка, а реальность. Теперь пора
-          устроить себе маленькую сказку вдвоём 🛫<br /><br />
-          Пусть это путешествие станет новой главой в вашей большой истории!<br /><br />
-          Вы прошли через всё рука об руку и доказали, что счастье — это семья
-          🫂<br /><br />
-          Так что пора наконец-то «пересесть из автобуса забот в самолёт любви»
-          и устроить себе медовый месяц №2
+            <section class="ticket-info" aria-labelledby="ticket-heading">
+                <h2 id="ticket-heading" class="sr-only">Информация о билетах</h2>
+                <div class="ticket-item">
+                    <span class="emoji" aria-hidden="true">🌍</span>
+                    <span>Пункт отправления: будни, заботы и рутина</span>
+                </div>
+                <div class="ticket-item">
+                    <span class="emoji" aria-hidden="true">💌</span>
+                    <span>Пункт назначения: счастье, отдых и море впечатлений</span>
+                </div>
+                <div class="ticket-item">
+                    <span class="emoji" aria-hidden="true">📍</span>
+                    <span>Дата вылета: когда вы решите)</span>
+                </div>
+                <div class="ticket-item">
+                    <span class="emoji" aria-hidden="true">🎟</span>
+                    <span>Места: только два — для самых главных пассажиров</span>
+                </div>
+            </section>
         </div>
 
-        <div class="video-container">
-          <video controls playsinline webkit-playsinline>
-            <source src="./годовщина свадьбы.mp4" type="video/mp4" />
-          </video>
-        </div>
+        <section class="second-block" aria-labelledby="congrats-heading">
+            <h2 id="congrats-heading" class="sr-only">Поздравление</h2>
+            <div class="congrats-text">
+                <strong>Тридцать лет вместе — это вам не шуточки!</strong><br><br>
+                За это время кто-то успевает трижды, а то и больше пожениться и
+                развестись, а вы всё ещё летите одним курсом 🚀<br><br>
+                Вы доказали, что любовь — это не сказка, а реальность. Теперь пора
+                устроить себе маленькую сказку вдвоём 🛫<br><br>
+                Пусть это путешествие станет новой главой в вашей большой истории!<br><br>
+                Вы прошли через всё рука об руку и доказали, что счастье — это семья
+                🫂<br><br>
+                Так что пора наконец-то «пересесть из автобуса забот в самолёт любви»
+                и устроить себе медовый месяц №2
+            </div>
 
-        <div
-          style="
-            text-align: center;
-            font-style: italic;
-            margin-top: 25px;
-            color: #7f8c8d;
-            font-size: clamp(0.9rem, 3.5vw, 1.4em);
-          "
-        >
-          Поздравляем вас, любим вас и гордимся вами! ❤️<br />Ваши любимые детки
-          👶
-        </div>
-      </div>
+            <div class="video-container">
+                <video controls playsinline webkit-playsinline preload="metadata">
+                    <source src="./годовщина свадьбы.mp4" type="video/mp4">
+                    Ваш браузер не поддерживает видео.
+                </video>
+            </div>
+
+            <footer style="text-align: center; font-style: italic; margin-top: clamp(1rem, 4vw, 2rem); color: #7f8c8d; font-size: clamp(0.9rem, 3.5vw, 1.4rem);">
+                Поздравляем вас, любим вас и гордимся вами! ❤️<br>Ваши любимые детки 👶
+            </footer>
+        </section>
     </div>
 
-    <script>
-      // Облака (без изменений)
-      function createClouds() {
-        const cloudsContainer = document.getElementById("clouds");
-        const cloudTypes = [
-          `<path d="M10,30 Q25,5 50,15 Q75,5 90,30 Q98,45 90,55 Q75,75 50,65 Q25,75 10,55 Q2,45 10,30 Z"/>`,
-          `<path d="M5,25 Q20,10 40,15 Q60,10 75,25 Q85,35 75,45 Q60,60 40,55 Q20,60 5,45 Q-5,35 5,25 Z"/>`,
-        ];
+    <script type="module">
+        // Modern JS with feature detection
+        class AnniversarySite {
+            constructor() {
+                this.init();
+            }
 
-        for (let i = 0; i < 12; i++) {
-          const cloud = document.createElement("div");
-          cloud.className = "cloud";
-          const size = 60 + Math.random() * 120;
-          cloud.style.cssText = `width:${size}px;height:${size * 0.6}px;top:${
-            Math.random() * 100
-          }%;left:${-size}px;animation-duration:${
-            20 + Math.random() * 30
-          }s;animation-delay:${Math.random() * 20}s;`;
-          cloud.innerHTML = `<svg viewBox="0 0 100 60">${
-            cloudTypes[Math.floor(Math.random() * cloudTypes.length)]
-          }</svg>`;
-          cloudsContainer.appendChild(cloud);
+            init() {
+                // Remove no-js class
+                document.documentElement.classList.remove('no-js');
+                
+                // Initialize components
+                this.createClouds();
+                this.setupIntersectionObserver();
+            }
+
+            createClouds() {
+                const cloudsContainer = document.getElementById('clouds');
+                const cloudTypes = [
+                    `<path d="M10,30 Q25,5 50,15 Q75,5 90,30 Q98,45 90,55 Q75,75 50,65 Q25,75 10,55 Q2,45 10,30 Z"/>`,
+                    `<path d="M5,25 Q20,10 40,15 Q60,10 75,25 Q85,35 75,45 Q60,60 40,55 Q20,60 5,45 Q-5,35 5,25 Z"/>`,
+                ];
+
+                for (let i = 0; i < 12; i++) {
+                    const cloud = document.createElement('div');
+                    cloud.className = 'cloud';
+                    const size = 60 + Math.random() * 120;
+                    
+                    cloud.innerHTML = `
+                        <svg viewBox="0 0 100 60" aria-hidden="true">
+                            ${cloudTypes[Math.floor(Math.random() * cloudTypes.length)]}
+                        </svg>
+                    `;
+                    
+                    Object.assign(cloud.style, {
+                        width: `${size}px`,
+                        height: `${size * 0.6}px`,
+                        top: `${Math.random() * 100}%`,
+                        left: `${-size}px`,
+                        animationDuration: `${20 + Math.random() * 30}s`,
+                        animationDelay: `${Math.random() * 20}s`
+                    });
+                    
+                    cloudsContainer.appendChild(cloud);
+                }
+            }
+
+            setupIntersectionObserver() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.animationPlayState = 'running';
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.airplane, .floating-heart').forEach(el => {
+                    observer.observe(el);
+                });
+            }
         }
-      }
 
-      document.addEventListener("DOMContentLoaded", createClouds);
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => new AnniversarySite());
+        } else {
+            new AnniversarySite();
+        }
     </script>
-  </body>
+
+    <style>
+        /* Screen reader only utility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</body>
 </html>
